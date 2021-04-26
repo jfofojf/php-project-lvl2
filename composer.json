@@ -1,6 +1,6 @@
 {
     "name": "hexlet/code",
-    "description": "cli, found differernce between JSON and YAML",
+    "description": "cli, found difference between JSON and YAML",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -19,6 +19,7 @@
     "require": {
         "docopt/docopt": "^1.0",
         "funct/funct": "^1.5",
-        "ext-json": "*"
+        "ext-json": "*",
+        "squizlabs/php_codesniffer": "*"
     }
 }
