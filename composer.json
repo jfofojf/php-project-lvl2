@@ -1,0 +1,24 @@
+{
+    "name": "hexlet/code",
+    "description": "cli, found differernce between JSON and YAML",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Igor",
+            "email": "vvanow@yandex.ru"
+        }
+    ],
+    "bin": "bin/gendiff",
+    "autoload": {
+        "files": [
+            "src/Differ.php"
+        ]
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "docopt/docopt": "^1.0",
+        "funct/funct": "^1.5",
+        "ext-json": "*"
+    }
+}
