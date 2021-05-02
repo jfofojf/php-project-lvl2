@@ -3,7 +3,6 @@ install:
 update:
 	composer update
 lint:
-    composer exec --verbose phpcs -- --standard=PSR12 src tests
+	composer exec -v phpcs -- --standard=PSR12 src bin tests
 test:
 	composer exec --verbose phpunit tests
-
