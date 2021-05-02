@@ -4,7 +4,10 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+        # Check-out repository under GitHub workspace
+        # https://github.com/actions/checkout
       - uses: actions/checkout@v2
+        # Step's name
       - name: Setup PHP
         # Action gives to setup the PHP environment to test application
         # https://github.com/shivammathur/setup-php
@@ -12,12 +15,20 @@ jobs:
         with:
           # Specify the PHP version
           php-version: '7.4'
-      - name: Tests
-        # test project
-        run: make test
-      # Runs a single command using the runners shell
-      - name: lint
+      - name: Install
+        # Install project
+        run: make install
+      - name: Run linter
+        # Run Linter
         run: make lint
+        # Publish code coverage on Code Climate
+        # https://github.com/paambaati/codeclimate-action
+      - name: Run test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.6.0
+        # Add Code Climate secret key
         env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: make test-coverage
+          coverageLocations: ${{github.workplace}}/build/logs/clover.xml:clover
+          debug: true
