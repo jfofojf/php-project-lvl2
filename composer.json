@@ -17,7 +17,8 @@
         "files": [
             "src/Differ.php",
             "src/Parser.php",
-            "src/formatter.php"
+            "src/formatter.php",
+            "src/formatters/tylish.php"
         ],
         "psr-4": {
             "Differ\\Tests\\": "tests",

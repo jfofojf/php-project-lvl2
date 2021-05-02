@@ -30,4 +30,4 @@ DOC;
 $args = Docopt::handle($doc, array(['version' => '0.0.1']));
 ['<firstFile>' => $firstPath, '<secondFile>' => $secondPath, '--format' => $format] = $args;
 
-print_r(genDiff($firstPath, $secondPath));
+print_r(genDiff($firstPath, $secondPath, $format));
