@@ -6,21 +6,32 @@ use PHPUnit\Framework\TestCase;
 
 use function Differ\Differ\genDiff;
 
+/**
+ * @param string $name
+ * @return string
+ */
+function path(string $name): string
+{
+    return implode('/', [ __DIR__, "fixtures", $name]);
+}
+
 class GenDiffTest extends TestCase
 {
-    public function getFixtures(string $name): string
+
+    /**
+     * @dataProvider dataProvider
+     */
+    public function testGenDiff($file1, $file2, $expected): void
     {
-        return implode('/', [ __DIR__, "fixtures", $name]);
+        $expect = path($expected);
+        $this->assertSame($expect, genDiff(path($file1), path($file2)));
     }
 
-    public function testGenDiff(): void
+    public function dataProvider(): array
     {
-        $f1 = implode('/', [ __DIR__, "fixtures", 'file1.json']);
-        $f2 = implode('/', [ __DIR__, "fixtures", 'file2.json']);
-        $expected = implode('/', [ __DIR__, "fixtures", 'expected.txt']);
-        $res = file_get_contents($expected);
-
-        $genDiffResult = genDiff($f1, $f2);
-        $this->assertEquals($res, $genDiffResult);
+        return [
+            ['file1.json', 'file2.json', 'expected.txt'],
+            ['file1.yml', 'file2.yml', 'expected.txt']
+        ];
     }
 }

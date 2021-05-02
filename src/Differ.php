@@ -2,50 +2,65 @@
 
 namespace Differ\Differ;
 
-use function Funct\Collection\sortBy;
+use function Funct\Collection\union;
+use function Differ\Parsers\parse;
+use function Differ\Formatters\render;
 
-function prepareValue($value)
+/**
+ * @throws \Exception
+ */
+function getFormattedData($path): array
 {
-    if (is_bool($value)) {
-        return $value ? 'true' : 'false';
+    $extension = pathinfo($path, PATHINFO_EXTENSION);
+
+    if (!file_exists($path)) {
+        throw new \Exception('No such file or directory');
     }
-    if (is_null($value)) {
-        return 'null';
-    }
-    return $value;
+
+    $data = file_get_contents($path);
+    return [$data, $extension];
 }
 
+/**
+ * @param string $file1
+ * @param string $file2
+ * @return string
+ */
 function genDiff(string $file1, string $file2): string
 {
-    $file1Array = json_decode(file_get_contents($file1), true);
-    $file2Array = json_decode(file_get_contents($file2), true);
+    [$firstFileData, $firstFileFormat] = getFormattedData($file1);
+    [$secondFileData, $secondFileFormat] = getFormattedData($file2);
 
-    $keys = array_keys(array_merge($file1Array, $file2Array));
-    $sortKeys = array_values(sortBy($keys, fn($key) => $key));
+    $parseFile1 = parse($firstFileData, $firstFileFormat);
+    $parseFile2 = parse($secondFileData, $secondFileFormat);
 
-    $res = array_reduce(
-        $sortKeys,
-        function ($acc, $key) use ($file1Array, $file2Array) {
-            if (!array_key_exists($key, $file1Array)) {
-                $valueFrom2 = prepareValue($file2Array[$key]);
-                $acc[] = "    + $key : $valueFrom2";
-            } elseif (!array_key_exists($key, $file2Array)) {
-                $valueFrom1 = prepareValue($file1Array[$key]);
-                $acc[] = "    - $key : $valueFrom1";
-            } elseif ($file1Array[$key] !== $file2Array[$key]) {
-                $valueFrom1 = prepareValue($file1Array[$key]);
-                $valueFrom2 = prepareValue($file2Array[$key]);
-                $acc[] = "    - $key : $valueFrom1";
-                $acc[] = "    + $key : $valueFrom2";
-            } else {
-                $valueFrom1 = prepareValue($file1Array[$key]);
-                $acc[] = "      $key : $valueFrom1";
-            }
-            return $acc;
-        },
-        []
-    );
-
-    $result = implode("\n", $res);
+    $diffTree = buildTree($parseFile1, $parseFile2);
+    $result = render($diffTree);
     return "{\n$result\n}";
+}
+
+/**
+ * @param object $file1
+ * @param object $file2
+ * @return array
+ */
+function buildTree(object $file1, object $file2): array
+{
+    $sortKeys = union(array_keys(get_object_vars($file1)), array_keys(get_object_vars($file2)));
+
+    return array_map(function ($node) use ($file1, $file2): array {
+        if (!property_exists($file2, $node)) {
+            return ['key' => $node, 'type' => 'removed', 'valueBefore' => $file1->$node];
+        }
+        if (!property_exists($file1, $node)) {
+            return ['key' => $node, 'type' => 'added', 'valueAfter' => $file2->$node];
+        }
+        if (is_object($file1->$node) && is_object($file2->$node)) {
+            return ['key' => $node, 'type' => 'nested', 'children' => buildTree($file1->$node, $file2->$node)];
+        }
+        if ($file1->$node !== $file2->$node) {
+            return ['key' => $node, 'type' => 'changed', 'valueBefore' => $file2->$node, 'valueAfter' => $file1->$node];
+        }
+        return ['key' => $node, 'type' => 'unchanged', 'valueBefore' => $file1->$node];
+    }, $sortKeys);
 }
