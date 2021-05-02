@@ -24,7 +24,8 @@ class GenDiffTest extends TestCase
     public function testGenDiff($file1, $file2, $expected): void
     {
         $expect = path($expected);
-        $this->assertSame($expect, genDiff(path($file1), path($file2)));
+        $res = file_get_contents($expect);
+        $this->assertEquals($res, genDiff(path($file1), path($file2)));
     }
 
     public function dataProvider(): array
