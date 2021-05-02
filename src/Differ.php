@@ -29,10 +29,10 @@ function genDiff(string $file1, string $file2): string
             if (!array_key_exists($key, $file1Array)) {
                 $valueFrom2 = prepareValue($file2Array[$key]);
                 $acc[] = "    + $key : $valueFrom2";
-            } else if (!array_key_exists($key, $file2Array)) {
+            } elseif (!array_key_exists($key, $file2Array)) {
                 $valueFrom1 = prepareValue($file1Array[$key]);
                 $acc[] = "    - $key : $valueFrom1";
-            } else if ($file1Array[$key] !== $file2Array[$key]) {
+            } elseif ($file1Array[$key] !== $file2Array[$key]) {
                 $valueFrom1 = prepareValue($file1Array[$key]);
                 $valueFrom2 = prepareValue($file2Array[$key]);
                 $acc[] = "    - $key : $valueFrom1";
@@ -42,7 +42,9 @@ function genDiff(string $file1, string $file2): string
                 $acc[] = "      $key : $valueFrom1";
             }
             return $acc;
-        }, []);
+        },
+        []
+    );
 
     $result = implode("\n", $res);
     return "{\n$result\n}";

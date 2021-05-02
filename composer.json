@@ -9,11 +9,15 @@
             "email": "vvanow@yandex.ru"
         }
     ],
-    "bin": "bin/gendiff",
+    "bin": "bin/genDiff",
     "autoload": {
         "files": [
             "src/Differ.php"
-        ]
+        ],
+        "psr-4": {
+            "Differ\\Tests\\": "tests",
+            "Differ\\": "src"
+        }
     },
     "minimum-stability": "stable",
     "require": {
@@ -21,5 +25,8 @@
         "funct/funct": "^1.5",
         "ext-json": "*",
         "squizlabs/php_codesniffer": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
     }
 }
