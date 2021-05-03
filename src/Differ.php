@@ -5,6 +5,7 @@ namespace Differ\Differ;
 use function Funct\Collection\union;
 use function Differ\Parsers\parse;
 use function Differ\Formatters\render;
+use function Funct\Collection\sortBy;
 
 /**
  * @throws \Exception
@@ -26,7 +27,7 @@ function getFormattedData($path): array
  * @param string $file2
  * @return string
  */
-function genDiff(string $file1, string $file2, string $format = 'stylish'): string
+function genDiff(string $file1, string $file2, string $format = 'stylish')
 {
     [$firstFileData, $firstFileFormat] = getFormattedData($file1);
     [$secondFileData, $secondFileFormat] = getFormattedData($file2);
@@ -36,7 +37,8 @@ function genDiff(string $file1, string $file2, string $format = 'stylish'): stri
 
     $diffTree = buildTree($parseFile1, $parseFile2);
     $result = render($diffTree, $format);
-    return "{\n$result\n}";
+    $r = $format === 'stylish' ? "{\n{$result}\n}" : $result;
+    return $r;
 }
 
 /**
@@ -47,20 +49,21 @@ function genDiff(string $file1, string $file2, string $format = 'stylish'): stri
 function buildTree(object $file1, object $file2): array
 {
     $sortKeys = union(array_keys(get_object_vars($file1)), array_keys(get_object_vars($file2)));
+    $sortedKeys = array_values(sortBy($sortKeys, fn($key) => $key));
 
     return array_map(function ($node) use ($file1, $file2): array {
-        if (!property_exists($file2, $node)) {
-            return ['key' => $node, 'type' => 'removed', 'valueBefore' => $file1->$node];
-        }
         if (!property_exists($file1, $node)) {
             return ['key' => $node, 'type' => 'added', 'valueAfter' => $file2->$node];
+        }
+        if (!property_exists($file2, $node)) {
+            return ['key' => $node, 'type' => 'removed', 'valueBefore' => $file1->$node];
         }
         if (is_object($file1->$node) && is_object($file2->$node)) {
             return ['key' => $node, 'type' => 'nested', 'children' => buildTree($file1->$node, $file2->$node)];
         }
-        if ($file1->$node !== $file2->$node) {
-            return ['key' => $node, 'type' => 'changed', 'valueBefore' => $file2->$node, 'valueAfter' => $file1->$node];
+        if ($file1->$node === $file2->$node) {
+            return ['key' => $node, 'type' => 'unchanged', 'valueBefore' => $file1->$node];
         }
-        return ['key' => $node, 'type' => 'unchanged', 'valueBefore' => $file1->$node];
-    }, $sortKeys);
+        return ['key' => $node, 'type' => 'changed', 'valueBefore' => $file2->$node, 'valueAfter' => $file1->$node];
+    }, $sortedKeys);
 }

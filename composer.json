@@ -18,7 +18,8 @@
             "src/Differ.php",
             "src/Parser.php",
             "src/formatter.php",
-            "src/formatters/tylish.php"
+            "src/formatters/tylish.php",
+            "src/formatters/plain.php"
         ],
         "psr-4": {
             "Differ\\Tests\\": "tests",
@@ -30,7 +31,8 @@
         "docopt/docopt": "^1.0",
         "funct/funct": "^1.5",
         "ext-json": "*",
-        "symfony/yaml": "^5.2"
+        "symfony/yaml": "^5.2",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

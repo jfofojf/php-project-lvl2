@@ -42,7 +42,7 @@ function prepareValue($value, int $depth): string
  * @param false $hasSign
  * @return string
  */
-function setIdent(int $depth, $hasSign = false): string
+function setIdent(int $depth, bool $hasSign = false): string
 {
     if ($hasSign) {
         $indentSize = $depth * 2 - 1;
@@ -66,6 +66,10 @@ function format(array $data, int $depth = 1): string
         $ident = setIdent($depth, true);
 
         switch ($type) {
+            case 'nested':
+                $child = format($node['children'], $depth + 1);
+                return "$ident  $name: {\n$child\n$ident  }";
+
             case 'added':
                 $value = prepareValue($node['valueAfter'], $depth + 1);
                 return "$ident+ $name: $value";
@@ -73,10 +77,6 @@ function format(array $data, int $depth = 1): string
             case 'removed':
                 $value = prepareValue($node['valueBefore'], $depth + 1);
                 return "$ident- $name: $value";
-
-            case 'nested':
-                $child = format($node['children'], $depth + 1);
-                return "$ident  $name: {\n$child\n$ident  }";
 
             case 'changed':
                 $value1 = prepareValue($node['valueAfter'], $depth + 1);
@@ -88,6 +88,5 @@ function format(array $data, int $depth = 1): string
                 return "$ident  $name: $value";
         }
     }, $data);
-
     return implode("\n", $result);
 }
