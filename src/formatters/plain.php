@@ -42,5 +42,8 @@ function prepareValue($val)
     if (is_null($val)) {
         return 'null';
     }
+    if (is_int($val)) {
+        return $val;
+    }
     return "'$val'";
 }
