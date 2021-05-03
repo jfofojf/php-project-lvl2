@@ -10,10 +10,10 @@ use Symfony\Component\Yaml\Yaml;
  */
 function parse($data, string $format)
 {
-    switch ($format) {
+    switch (mb_strtolower($format)) {
         case 'json':
             return json_decode($data);
-        case 'YAML':
+        case 'yaml':
         case 'yml':
             return Yaml::parse($data, Yaml::PARSE_OBJECT_FOR_MAP);
         default:
