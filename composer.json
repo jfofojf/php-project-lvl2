@@ -19,7 +19,8 @@
             "src/Parser.php",
             "src/formatter.php",
             "src/formatters/tylish.php",
-            "src/formatters/plain.php"
+            "src/formatters/plain.php",
+            "src/formatters/json.php"
         ],
         "psr-4": {
             "Differ\\Tests\\": "tests",
