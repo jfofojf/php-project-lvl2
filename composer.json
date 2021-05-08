@@ -9,7 +9,7 @@
             "email": "vvanow@yandex.ru"
         }
     ],
-    "bin": "bin/genDiff",
+    "bin": "bin/gendiff",
     "scripts": {
         "phpcs": "phpcs"
     },
