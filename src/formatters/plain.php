@@ -4,7 +4,12 @@ namespace Differ\Formatters\Plain;
 
 use function Funct\Collection\without;
 
-function format($tree, $key = ""): string
+/**
+ * @param array $tree
+ * @param string $key
+ * @return string
+ */
+function format(array $tree, string $key = ""): string
 {
     $result = array_map(function ($var) use ($key) {
         $name = $var['key'];
@@ -28,10 +33,10 @@ function format($tree, $key = ""): string
                 return 'del';
         }
     }, $tree);
-    return implode("\n", without($result, 'del'));
+    return implode("\n", without($result, ['del']));
 }
 
-function prepareValue($val)
+function prepareValue(mixed $val): string
 {
     if (is_object($val)) {
         return '[complex value]';

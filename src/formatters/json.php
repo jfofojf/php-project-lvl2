@@ -6,7 +6,7 @@ use phpDocumentor\Reflection\File;
 
 /**
  * @param array $tree
- * @return false|string
+ * @return string
  */
 function format(array $tree): string
 {
