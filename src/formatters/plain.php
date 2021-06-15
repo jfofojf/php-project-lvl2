@@ -34,10 +34,11 @@ function format(array $tree, string $key = ""): string
         }
         return $tree;
     }, $tree);
-    return implode("\n", without($result, (array)'del'));
+    $res = without($result, (array)'del');
+    return implode("\n", $res);
 }
 
-function prepareValue(mixed $val): string|int
+function prepareValue(mixed $val): mixed
 {
     if (is_object($val)) {
         return '[complex value]';
