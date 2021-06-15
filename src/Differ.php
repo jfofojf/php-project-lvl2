@@ -8,9 +8,11 @@ use function Differ\Formatters\render;
 use function Funct\Collection\sortBy;
 
 /**
+ * @param string $path
+ * @return array
  * @throws \Exception
  */
-function getFormattedData($path): array
+function getFormattedData(string $path): array
 {
     $extension = pathinfo($path, PATHINFO_EXTENSION);
 

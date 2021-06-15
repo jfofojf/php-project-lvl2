@@ -3,12 +3,16 @@
 namespace Differ\Parsers;
 
 use Exception;
+use phpDocumentor\Reflection\Types\Mixed_;
 use Symfony\Component\Yaml\Yaml;
 
 /**
+ * @param file $data
+ * @param string $format
+ * @return mixed
  * @throws Exception
  */
-function parse($data, string $format)
+function parse(file $data, string $format): mixed
 {
     switch ($format) {
         case 'json':
