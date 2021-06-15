@@ -33,7 +33,7 @@ function format(array $tree, string $key = ""): string
                 return 'del';
         }
     }, $tree);
-    return implode("\n", without($result, 'del'));
+    return implode("\n", without($result, (array)'del'));
 }
 
 function prepareValue(mixed $val): mixed
