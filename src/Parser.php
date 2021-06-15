@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 function parse($data, string $format)
 {
-    switch (mb_strtolower($format)) {
+    switch ($format) {
         case 'json':
             return json_decode($data);
         case 'yaml':

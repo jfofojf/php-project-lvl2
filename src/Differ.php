@@ -27,7 +27,7 @@ function getFormattedData($path): array
  * @param string $file2
  * @return string
  */
-function genDiff(string $file1, string $file2, string $format = 'stylish'): string
+function genDiff(string $file1, string $file2, string $format = 'stylish')
 {
     [$firstFileData, $firstFileFormat] = getFormattedData($file1);
     [$secondFileData, $secondFileFormat] = getFormattedData($file2);

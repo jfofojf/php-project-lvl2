@@ -8,5 +8,5 @@ namespace Differ\Formatters\Json;
  */
 function format($tree)
 {
-    return json_encode($tree, JSON_THROW_ON_ERROR);
+    return json_encode($tree);
 }
