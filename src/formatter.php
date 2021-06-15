@@ -7,12 +7,12 @@ use function Differ\Formatters\Plain\format as plainFormat;
 use function Differ\Formatters\Json\format as jsonFormat;
 
 /**
- * @param $tree
+ * @param array $tree
  * @param string $format
  * @return mixed
  * @throws \Exception
  */
-function render($tree, string $format)
+function render(array $tree, string $format): mixed
 {
     switch (mb_strtolower($format)) {
         case 'stylish':

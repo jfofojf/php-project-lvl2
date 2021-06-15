@@ -2,11 +2,13 @@
 
 namespace Differ\Formatters\Json;
 
+use phpDocumentor\Reflection\File;
+
 /**
- * @param $tree
+ * @param array $tree
  * @return false|string
  */
-function format($tree)
+function format(array $tree): string
 {
     return json_encode($tree);
 }

@@ -7,12 +7,12 @@ use phpDocumentor\Reflection\Types\Mixed_;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @param file $data
+ * @param string $data
  * @param string $format
  * @return mixed
  * @throws Exception
  */
-function parse(file $data, string $format): mixed
+function parse(string $data, string $format): mixed
 {
     switch ($format) {
         case 'json':
