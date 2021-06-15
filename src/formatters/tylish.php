@@ -60,7 +60,7 @@ function setIdent(int $depth, bool $hasSign = false): string
  */
 function format(array $data, int $depth = 1): string
 {
-    $result = array_map(function ($node) use ($depth) {
+    $result = array_map(function ($node) use ($data, $depth) {
         $name = $node['key'];
         $type = $node['type'];
         $ident = setIdent($depth, true);
@@ -87,6 +87,7 @@ function format(array $data, int $depth = 1): string
                 $value = prepareValue($node['valueBefore'], $depth + 1);
                 return "$ident  $name: $value";
         }
+        return $data;
     }, $data);
     return implode("\n", $result);
 }
