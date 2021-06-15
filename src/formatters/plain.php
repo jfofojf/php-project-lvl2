@@ -34,7 +34,8 @@ function format(array $tree, string $key = ""): string
         }
         return $tree;
     }, $tree);
-    $res = without($result, 'del');
+    $dl = ['del'];
+    $res = without($result, $dl);
     return implode("\n", $res);
 }
 
