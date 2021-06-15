@@ -32,6 +32,7 @@ function format(array $tree, string $key = ""): string
             case 'unchanged':
                 return 'del';
         }
+        return $tree;
     }, $tree);
     return implode("\n", without($result, 'del'));
 }

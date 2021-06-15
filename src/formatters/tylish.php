@@ -39,7 +39,7 @@ function prepareValue(mixed $value, int $depth): string
 
 /**
  * @param int $depth
- * @param false $hasSign
+ * @param boolean $hasSign
  * @return string
  */
 function setIdent(int $depth, bool $hasSign = false): string
