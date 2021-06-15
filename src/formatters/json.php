@@ -6,9 +6,9 @@ use phpDocumentor\Reflection\File;
 
 /**
  * @param array $tree
- * @return string
+ * @return string|bool
  */
-function format(array $tree): string
+function format(array $tree): string|bool
 {
     return json_encode($tree);
 }

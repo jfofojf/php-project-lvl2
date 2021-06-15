@@ -11,7 +11,7 @@ use function Funct\Collection\without;
  */
 function format(array $tree, string $key = ""): string
 {
-    $result = array_map(function ($var) use ($key) {
+    $result = array_map(function ($var) use ($tree, $key) {
         $name = $var['key'];
         $name = $key === "" ? $name : "$key.$name";
         $type = $var['type'];
@@ -34,10 +34,10 @@ function format(array $tree, string $key = ""): string
         }
         return $tree;
     }, $tree);
-    return implode("\n", without($result, 'del'));
+    return implode("\n", without($result, (array)'del'));
 }
 
-function prepareValue(mixed $val): mixed
+function prepareValue(mixed $val): string|int
 {
     if (is_object($val)) {
         return '[complex value]';
