@@ -36,7 +36,7 @@ function format(array $tree, string $key = ""): string
     return implode("\n", without($result, ['del']));
 }
 
-function prepareValue(mixed $val): string
+function prepareValue(mixed $val): mixed
 {
     if (is_object($val)) {
         return '[complex value]';

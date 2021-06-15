@@ -5,11 +5,11 @@ namespace Differ\Formatters\Stylish;
 const BASE_IDENT = "  ";
 
 /**
- * @param $value
+ * @param mixed $value
  * @param int $depth
  * @return string
  */
-function prepareValue($value, int $depth): string
+function prepareValue(mixed $value, int $depth): string
 {
     $ident = setIdent($depth);
 
