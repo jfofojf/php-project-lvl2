@@ -13,7 +13,7 @@ function format(array $tree, string $key = ""): string
 {
     $result = array_map(function ($var) use ($tree, $key) {
         $name = $var['key'];
-        $name = $key === "" ? $name : "$key .= $name";
+        $name = $key === "" ? $name : "$key.$name";
         $type = $var['type'];
         $t = "Property";
 
